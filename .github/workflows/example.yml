@@ -9,7 +9,7 @@ on:
 
 jobs:
   windows:
-    name: Run Tests
+    name: Windows
     runs-on: windows-latest
 
     steps:
@@ -35,51 +35,35 @@ jobs:
       - name: Compile release build
         run: cargo build --release
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-
-      - name: Create Python project dir
-        run: mkdir tmp
-
-      - name: Initialise Python project
-        working-directory: tmp
-        run: |
-          uv init .
-          uv add pycowsay
-
-      - name: Copy main.py in to app dir
-        shell: bash
-        run: cp pycowsay_example.py tmp/main.py
-
       - name: Copy PyCrucible to project
         shell: bash
-        run: cp ./target/release/pycrucible.exe tmp
+        run: cp ./target/release/pycrucible.exe my_cowsay
 
       - name: Run PyCrucible
         shell: bash
-        working-directory: tmp
+        working-directory: my_cowsay
         run: ./pycrucible.exe -e . -o cowsay.exe
 
       # - name: Test cowsay.exe
       #   shell: bash
-      #   working-directory: tmp
+      #   working-directory: my_cowsay
       #   run: ./cowsay.exe  
 
       # Workaround / hack ?
       - name: Copy main.py to payload
         shell: bash
-        working-directory: tmp
+        working-directory: my_cowsay
         run: cp main.py payload
 
       - name: Test cowsay.exe
         shell: bash
-        working-directory: tmp
+        working-directory: my_cowsay
         run: ./cowsay.exe  
 
 
 
   linux:
-    name: Run Tests
+    name: Linux
     runs-on: ubuntu-latest
 
     steps:
@@ -105,46 +89,31 @@ jobs:
       - name: Compile release build
         run: cargo build --release
 
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
-
-      - name: Create Python project dir
-        run: mkdir tmp
-
-      - name: Initialise Python project
-        working-directory: tmp
-        run: |
-          uv init .
-          uv add pycowsay
-
-      - name: Copy main.py in to app dir
-        shell: bash
-        run: cp pycowsay_example.py tmp/main.py
 
       - name: Copy PyCrucible to project
         shell: bash
-        run: cp ./target/release/pycrucible tmp
+        run: cp ./target/release/pycrucible my_cowsay
 
       - name: Run PyCrucible
         shell: bash
-        working-directory: tmp
+        working-directory: my_cowsay
         run: ./pycrucible -e . -o cowsay
 
 
       # - name: Test cowsay
       #   shell: bash
-      #   working-directory: tmp
+      #   working-directory: my_cowsay
       #   run: ./cowsay 
 
       # Workaround / hack ?
       - name: Copy main.py to payload
         shell: bash
-        working-directory: tmp
+        working-directory: my_cowsay
         run: cp main.py payload
 
       - name: Test cowsay
         shell: bash
-        working-directory: tmp
+        working-directory: my_cowsay
         run: ./cowsay
           
       
