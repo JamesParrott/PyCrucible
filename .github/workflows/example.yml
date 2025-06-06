@@ -60,10 +60,10 @@ jobs:
         working-directory: tmp
         run: ./pycrucible.exe -e . -o cowsay.exe
 
-      - name: Test cowsay.exe
-        shell: bash
-        working-directory: tmp
-        run: ./cowsay.exe  
+      # - name: Test cowsay.exe
+      #   shell: bash
+      #   working-directory: tmp
+      #   run: ./cowsay.exe  
 
       # Workaround / hack ?
       - name: Copy main.py to payload
@@ -129,6 +129,18 @@ jobs:
         shell: bash
         working-directory: tmp
         run: ./pycrucible -e . -o cowsay
+
+
+      # - name: Test cowsay
+      #   shell: bash
+      #   working-directory: tmp
+      #   run: ./cowsay 
+
+      # Workaround / hack ?
+      - name: Copy main.py to payload
+        shell: bash
+        working-directory: tmp
+        run: cp main.py payload
 
       - name: Test cowsay
         shell: bash
