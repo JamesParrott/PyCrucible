@@ -53,7 +53,9 @@ jobs:
       - name: Copy main.py to payload
         shell: bash
         working-directory: my_cowsay
-        run: cp main.py payload
+        run: |
+          mkdir payload
+          cp main.py payload
 
       - name: Test cowsay.exe
         shell: bash
@@ -109,7 +111,9 @@ jobs:
       - name: Copy main.py to payload
         shell: bash
         working-directory: my_cowsay
-        run: cp main.py payload
+        run: |
+          mkdir payload
+          cp main.py payload
 
       - name: Test cowsay
         shell: bash
