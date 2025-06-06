@@ -39,7 +39,7 @@ jobs:
         run: mkdir tmp
 
       - name: Initialise Python project
-        working-directory:: tmp
+        working-directory: tmp
         run: |
           uv init .
           uv add pycowsay
@@ -52,11 +52,11 @@ jobs:
         run: cp ./target/release/pycrucible.exe tmp
 
       - name: Run PyCrucible
-        working-directory:: tmp
+        working-directory: tmp
         run: pycrucible -e . -o cowsay.exe
 
       - name: Test cowsay.exe
-        working-directory:: tmp
+        working-directory: tmp
         run: cowsay.exe
           
       
