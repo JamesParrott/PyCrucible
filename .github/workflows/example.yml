@@ -2,7 +2,7 @@ name: Build and run an example app with PyCrucible
 
 on:
 
-  workflow_despatch:
+  workflow_dispatch:
 
 
 jobs:
