@@ -1,7 +1,9 @@
 name: Build and run an example app with PyCrucible
 
 on:
-
+  push:
+    branches:
+      [CI_Cowsay_Example,]
   workflow_dispatch:
 
 
