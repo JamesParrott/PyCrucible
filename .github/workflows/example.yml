@@ -19,6 +19,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
 
+
       - name: Cache Cargo dependencies
         uses: actions/cache@v3
         with:
@@ -29,6 +30,8 @@ jobs:
             target
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
+      - uses: Swatinem/rust-cache@v2
+      
       - name: Compile release build
         run: cargo build --release
 
