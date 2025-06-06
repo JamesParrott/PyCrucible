@@ -31,7 +31,7 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
 
       - uses: Swatinem/rust-cache@v2
-      
+
       - name: Compile release build
         run: cargo build --release
 
@@ -49,7 +49,7 @@ jobs:
 
       - name: Copy main.py in to app dir
         shell: bash
-        run: cp pycowsay_example_main.py tmp/main.py
+        run: cp pycowsay_example.py tmp/main.py
 
       - name: Copy PyCrucible to project
         run: cp ./target/release/pycrucible.exe tmp
