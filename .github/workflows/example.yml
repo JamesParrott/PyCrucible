@@ -52,11 +52,13 @@ jobs:
         run: cp pycowsay_example.py tmp/main.py
 
       - name: Copy PyCrucible to project
+        shell: bash
         run: cp ./target/release/pycrucible.exe tmp
 
       - name: Run PyCrucible
+        shell: bash
         working-directory: tmp
-        run: pycrucible.exe -e . -o cowsay.exe
+        run: ./pycrucible.exe -e . -o cowsay.exe
 
       - name: Test cowsay.exe
         working-directory: tmp
