@@ -8,7 +8,7 @@ on:
 
 
 jobs:
-  example:
+  windows:
     name: Run Tests
     runs-on: windows-latest
 
@@ -63,6 +63,76 @@ jobs:
       - name: Test cowsay.exe
         shell: bash
         working-directory: tmp
-        run: ./cowsay.exe
+        run: ./cowsay.exe  
+
+      # Workaround / hack ?
+      - name: Copy main.py to payload
+        shell: bash
+        working-directory: tmp
+        run: cp main.py payload
+
+      - name: Test cowsay.exe
+        shell: bash
+        working-directory: tmp
+        run: ./cowsay.exe  
+
+
+
+  linux:
+    name: Run Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Compile release build
+        run: cargo build --release
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Create Python project dir
+        run: mkdir tmp
+
+      - name: Initialise Python project
+        working-directory: tmp
+        run: |
+          uv init .
+          uv add pycowsay
+
+      - name: Copy main.py in to app dir
+        shell: bash
+        run: cp pycowsay_example.py tmp/main.py
+
+      - name: Copy PyCrucible to project
+        shell: bash
+        run: cp ./target/release/pycrucible tmp
+
+      - name: Run PyCrucible
+        shell: bash
+        working-directory: tmp
+        run: ./pycrucible -e . -o cowsay
+
+      - name: Test cowsay
+        shell: bash
+        working-directory: tmp
+        run: ./cowsay
           
       
