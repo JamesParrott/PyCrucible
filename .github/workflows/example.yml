@@ -44,18 +44,17 @@ jobs:
         working-directory: my_cowsay
         run: ./pycrucible.exe -e . -o cowsay.exe
 
-      # - name: Test cowsay.exe
-      #   shell: bash
-      #   working-directory: my_cowsay
-      #   run: ./cowsay.exe  
+      - name: Test cowsay.exe
+        continue-on-error: true
+        shell: bash
+        working-directory: my_cowsay
+        run: ./cowsay.exe  
 
       # Workaround / hack ?
       - name: Copy main.py to payload
         shell: bash
         working-directory: my_cowsay
-        run: |
-          mkdir payload
-          cp main.py payload
+        run: cp main.py payload
 
       - name: Test cowsay.exe
         shell: bash
@@ -102,18 +101,17 @@ jobs:
         run: ./pycrucible -e . -o cowsay
 
 
-      # - name: Test cowsay
-      #   shell: bash
-      #   working-directory: my_cowsay
-      #   run: ./cowsay 
+      - name: Test cowsay
+        continue-on-error: true
+        shell: bash
+        working-directory: my_cowsay
+        run: ./cowsay 
 
       # Workaround / hack ?
       - name: Copy main.py to payload
         shell: bash
         working-directory: my_cowsay
-        run: |
-          mkdir payload
-          cp main.py payload
+        run: cp main.py payload
 
       - name: Test cowsay
         shell: bash
