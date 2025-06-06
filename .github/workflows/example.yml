@@ -61,7 +61,8 @@ jobs:
         run: ./pycrucible.exe -e . -o cowsay.exe
 
       - name: Test cowsay.exe
+        shell: bash
         working-directory: tmp
-        run: cowsay.exe
+        run: ./cowsay.exe
           
       
