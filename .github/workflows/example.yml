@@ -1,0 +1,60 @@
+name: Build and run an example app with PyCrucible
+
+on:
+
+  workflow_despatch:
+
+
+jobs:
+  example:
+    name: Run Tests
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Cache Cargo dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/bin
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+
+      - name: Compile release build
+        run: cargo build --release
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      - name: Create Python project dir
+        run: mkdir tmp
+
+      - name: Initialise Python project
+        working_directory: tmp
+        run: |
+          uv init .
+          uv add pycowsay
+
+      - name: Copy main.py in to app dir
+        shell: bash
+        run: cp pycowsay_example_main.py tmp/main.py
+
+      - name: Copy PyCrucible to project
+        run: cp ./target/release/pycrucible.exe tmp
+
+      - name: Run PyCrucible
+        working_directory: tmp
+        run: pycrucible -e . -o cowsay.exe
+
+      - name: Test cowsay.exe
+        working_directory: tmp
+        run: cowsay.exe
+          
+      
