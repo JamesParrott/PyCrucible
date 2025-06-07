@@ -14,11 +14,9 @@ jobs:
       matrix:
         config:
           [ {runner: windows-latest,
-             shell: cmd,
              bin_ext: .exe,
             },
             {runner: ubuntu-24.04,
-             shell: bash,
              bin_ext: "",
             },
           ]
@@ -60,7 +58,7 @@ jobs:
 
       - name: Run PyCrucible
         if: ${{ matrix.config.runner == 'windows-latest' }}
-        shell: ${{ matrix.config.shell }}
+        shell: cmd
         working-directory: simple-python-project-for-PyCrucible
         run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/simple-python-project-for-PyCrucible -o cowsay.exe
 
