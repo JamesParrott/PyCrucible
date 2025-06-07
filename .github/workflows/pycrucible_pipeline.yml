@@ -153,3 +153,20 @@ jobs:
         run: ./cowsay${{ matrix.config.bin_ext}} 
 
 
+  release:
+    name: Create Release
+    needs: embed_cowsay
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4.2.1
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            **/pycrucible_*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
