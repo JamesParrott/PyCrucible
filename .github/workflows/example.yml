@@ -57,13 +57,13 @@ jobs:
         run: cp ./target/release/pycrucible${{ matrix.config.bin_ext}} simple-python-project-for-PyCrucible
 
       - name: Run PyCrucible
-        if: matrix.config.runner == "windows-latest"
+        if: contains(matrix.config.runner,'windows')
         shell: cmd
         working-directory: simple-python-project-for-PyCrucible
         run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/simple-python-project-for-PyCrucible -o cowsay.exe --debug
 
       - name: Run PyCrucible
-        if: matrix.config.runner != "windows-latest"
+        if: ${{ !contains(matrix.config.runner,'windows') }}
         working-directory: simple-python-project-for-PyCrucible
         run: ./pycrucible -e . -o cowsay --debug
 
