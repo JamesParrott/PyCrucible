@@ -124,11 +124,17 @@ jobs:
         working-directory: simple-python-project-for-PyCrucible
         run: chmod +x pycrucible_*
 
+      - name: Show files
+        if: contains(matrix.config.runner,'windows')
+        shell: cmd
+        working-directory: simple-python-project-for-PyCrucible
+        run: dir /a
+
       - name: Run PyCrucible
         if: contains(matrix.config.runner,'windows')
         shell: cmd
         working-directory: simple-python-project-for-PyCrucible
-        run: .\pycrucible_*.exe -e . -o cowsay.exe --debug
+        run: .\pycrucible_${{ github.ref_name }}_x86_64-pc-windows-gnu.exe -e . -o cowsay.exe --debug
 
       - name: Run PyCrucible
         if: ${{ !contains(matrix.config.runner,'windows') }}
