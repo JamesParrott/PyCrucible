@@ -8,8 +8,12 @@ on:
 
 
 jobs:
-  windows:
-    name: Windows
+  build_and_embed_example:
+    name: Build and Embed example project
+    strategy:
+      matrix:
+        config:
+          
     runs-on: windows-latest
 
     steps:
