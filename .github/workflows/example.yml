@@ -76,12 +76,13 @@ jobs:
 
       # Workaround / hack ?
       - name: Copy main.py to payload
-        if: ${{ matrix.config.use_hack == 'windows-latest' }}
+        if: ${{ matrix.config.use_workaround_hack }}
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
-      - name: Test cowsay executable
+      - name: Rerun cowsay executable
+        if: ${{ matrix.config.use_workaround_hack }}
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay${{ matrix.config.bin_ext}} 
