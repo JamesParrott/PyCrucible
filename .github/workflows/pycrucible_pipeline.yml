@@ -2,7 +2,7 @@ name: PyCrucible pipeline
 
 on:
   push:
-    branches: [ main ]
+    branches: [main, ]
   release:
     types: [created]
 
@@ -124,11 +124,17 @@ jobs:
         working-directory: simple-python-project-for-PyCrucible
         run: chmod +x pycrucible_*
 
+      - name: Show files
+        if: contains(matrix.config.runner,'windows')
+        shell: cmd
+        working-directory: simple-python-project-for-PyCrucible
+        run: dir /a
+
       - name: Run PyCrucible
         if: contains(matrix.config.runner,'windows')
         shell: cmd
         working-directory: simple-python-project-for-PyCrucible
-        run: .\pycrucible_*.exe -e . -o cowsay.exe --debug
+        run: .\pycrucible_${{ github.ref_name }}_x86_64-pc-windows-gnu.exe -e . -o cowsay.exe --debug
 
       - name: Run PyCrucible
         if: ${{ !contains(matrix.config.runner,'windows') }}
@@ -137,19 +143,37 @@ jobs:
 
       - name: Test cowsay${{ matrix.config.bin_ext}}
         shell: bash
+        continue-on-error: ${{ matrix.use_workaround_hack }}
         working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay${{ matrix.config.bin_ext}}  
 
       - name: Copy main.py to payload
-        if: matrix.config.use_workaround_hack
+        if: matrix.use_workaround_hack
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
       - name: Rerun cowsay executable
-        if: matrix.config.use_workaround_hack
+        if: matrix.use_workaround_hack
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay${{ matrix.config.bin_ext}} 
 
 
+  release:
+    name: Create Release
+    needs: embed_cowsay
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4.2.1
+
+      - name: Upload Release Assets
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            **/pycrucible_*
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
