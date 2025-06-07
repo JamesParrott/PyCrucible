@@ -50,6 +50,18 @@ jobs:
         working-directory: my_cowsay
         run: ./cowsay.exe  
 
+      # Workaround / hack ?
+      - name: Copy main.py to payload
+        shell: bash
+        working-directory: my_cowsay
+        run: cp main.py payload
+
+      - name: Test cowsay.exe
+        shell: bash
+        working-directory: my_cowsay
+        run: ./cowsay.exe  
+
+
 
   linux:
     name: Linux
@@ -95,6 +107,15 @@ jobs:
         working-directory: my_cowsay
         run: ./cowsay 
 
+      # Workaround / hack ?
+      - name: Copy main.py to payload
+        shell: bash
+        working-directory: my_cowsay
+        run: cp main.py payload
 
+      - name: Test cowsay
+        shell: bash
+        working-directory: my_cowsay
+        run: ./cowsay
           
       
