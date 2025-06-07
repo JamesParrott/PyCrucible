@@ -34,7 +34,7 @@ This tool runs a Python application with a help of UV binary. It extracts your p
 1. Ensure you have [Rust](https://www.rust-lang.org/) installed.
 
 2. Clone the repository
- - `git clone github.com/razorblade23/PyCrucible`
+ - `git clone https://github.com/razorblade23/PyCrucible`
 
 3. Change directory to be inside of a project
  - `cd PyCrucible`
@@ -73,6 +73,8 @@ Options:
           Path to `uv` executable. If not found, it will be downloaded automatically [default: `.`]
       --extract-to-temp
           Extract Python project to a temporary directory when running
+      --debug
+          Enable debug output
       --delete-after-run <DELETE_AFTER_RUN>
           Delete extracted files after running. Note: requires re-downloading dependencies on each run [default: false]
   -h, --help
@@ -103,7 +105,7 @@ You can run your project from binary by running
 
 `launcher.exe`
 
-Now you can copy that "launcher" on practicly any machine with the same arhitecture.
+Now you can copy that "launcher" on practicly any machine with the same architecture.
 Machine only needs internet connection in order to download the dependacies.
 This proccess is extremely fast (but reliant on internet connection)
 
