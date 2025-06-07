@@ -146,13 +146,13 @@ jobs:
         run: ./cowsay${{ matrix.config.bin_ext}}  
 
       - name: Copy main.py to payload
-        if: matrix.config.use_workaround_hack
+        if: matrix.use_workaround_hack
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
       - name: Rerun cowsay executable
-        if: matrix.config.use_workaround_hack
+        if: matrix.use_workaround_hack
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay${{ matrix.config.bin_ext}} 
