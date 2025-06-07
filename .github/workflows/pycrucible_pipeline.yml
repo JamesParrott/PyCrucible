@@ -119,6 +119,12 @@ jobs:
         shell: bash
         run: cp ./pycrucible_*/* simple-python-project-for-PyCrucible
 
+      - name: Make downloaded PyCrucuble executables executable
+        if: ${{ !contains(matrix.config.runner,'windows') }}
+        shell: bash
+        working-directory: simple-python-project-for-PyCrucible
+        run: chmod +x pycrucible_*
+
       - name: Run PyCrucible
         if: contains(matrix.config.runner,'windows')
         shell: cmd
