@@ -37,7 +37,6 @@ jobs:
   build:
     name: Build Artifacts
     needs: test
-    if: github.event_name == 'release'
     strategy:
       matrix:
         target:
