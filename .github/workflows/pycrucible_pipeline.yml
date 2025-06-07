@@ -2,6 +2,7 @@ name: PyCrucible pipeline
 
 on:
   push:
+    branches: [main, ]
   release:
     types: [created]
 
