@@ -9,7 +9,7 @@ on:
 
 jobs:
   build_and_embed_example:
-    name: Build and Embed example project
+    name: compile_and_run
     strategy:
       matrix:
         config:
@@ -21,8 +21,8 @@ jobs:
             },
           ]
         use_workaround_hack:
-          - true
-          - false
+          - yes
+          - no
           
     runs-on: ${{ matrix.config.runner }}
 
@@ -57,15 +57,15 @@ jobs:
         run: cp ./target/release/pycrucible${{ matrix.config.bin_ext}} simple-python-project-for-PyCrucible
 
       - name: Run PyCrucible
-        if: ${{ matrix.config.runner == 'windows-latest' }}
+        if: matrix.config.runner == "windows-latest"
         shell: cmd
         working-directory: simple-python-project-for-PyCrucible
-        run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/simple-python-project-for-PyCrucible -o cowsay.exe
+        run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/simple-python-project-for-PyCrucible -o cowsay.exe --debug
 
       - name: Run PyCrucible
-        if: ${{ matrix.config.runner != 'windows-latest' }}
+        if: matrix.config.runner != "windows-latest"
         working-directory: simple-python-project-for-PyCrucible
-        run: ./pycrucible -e . -o cowsay
+        run: ./pycrucible -e . -o cowsay --debug
 
       - name: Test cowsay${{ matrix.config.bin_ext}}
         shell: bash
@@ -74,13 +74,13 @@ jobs:
 
       # Workaround / hack ?
       - name: Copy main.py to payload
-        if: ${{ matrix.config.use_workaround_hack }}
+        if: matrix.config.use_workaround_hack == "yes"
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
       - name: Rerun cowsay executable
-        if: ${{ matrix.config.use_workaround_hack }}
+        if: matrix.config.use_workaround_hack == "yes"
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay${{ matrix.config.bin_ext}} 
