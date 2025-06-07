@@ -40,9 +40,15 @@ jobs:
     if: github.event_name == 'release'
     strategy:
       matrix:
-        target:
-          - x86_64-unknown-linux-gnu
-          - x86_64-pc-windows-gnu
+        config:
+          [ {target: x86_64-pc-windows-gnu,
+             bin_ext: .exe,
+            },
+            {target: x86_64-unknown-linux-gnu,
+             bin_ext: "",
+            },
+          ]
+
     runs-on: ubuntu-latest
     
     services:
@@ -59,7 +65,7 @@ jobs:
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          targets: ${{ matrix.config.target }}
 
       - name: Install cross
         run: cargo install cross
@@ -70,18 +76,14 @@ jobs:
           driver: docker
   
       - name: Build project with cross
-        run: cross build --release --target ${{ matrix.target }}
+        run: cross build --release --target ${{ matrix.config.target }}
   
       - name: Prepare binary
         run: |
           VERSION=${{ github.ref_name }}
-          if [[ "${{ matrix.target }}" == *"windows"* ]]; then
-            BINARY_EXT=".exe"
-          else
-            BINARY_EXT=""
-          fi
-          BINARY_NAME=pycrucible_${VERSION}_${{ matrix.target }}${BINARY_EXT}
-          cp target/${{ matrix.target }}/release/pycrucible${BINARY_EXT} $BINARY_NAME
+          BINARY_EXT=${{ matrix.config.bin_ext }}
+          BINARY_NAME=pycrucible_${VERSION}_${{ matrix.config.target }}${BINARY_EXT}
+          cp target/${{ matrix.config.target }}/release/pycrucible${BINARY_EXT} $BINARY_NAME
           echo "binary_name=$BINARY_NAME" >> $GITHUB_ENV
   
       - name: Upload Artifact
