@@ -3,7 +3,7 @@ name: Workaround/hack.  Build and run an example app with PyCrucible
 on:
   push:
     branches:
-      [CI_Cowsay_Example,]
+      [External_example_repo,]
   workflow_dispatch:
 
 
@@ -35,30 +35,33 @@ jobs:
       - name: Compile release build
         run: cargo build --release
 
+      - name: Clone example project
+        run: git clone https://github.com/JamesParrott/simple-python-project-for-PyCrucible/
+
       - name: Copy PyCrucible to project
         shell: bash
-        run: cp ./target/release/pycrucible.exe my_cowsay
+        run: cp ./target/release/pycrucible.exe simple-python-project-for-PyCrucible
 
       - name: Run PyCrucible
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./pycrucible.exe -e . -o cowsay.exe
 
       - name: Test cowsay.exe
         continue-on-error: true
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay.exe  
 
       # Workaround / hack ?
       - name: Copy main.py to payload
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
       - name: Test cowsay.exe
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay.exe  
 
 
@@ -91,31 +94,34 @@ jobs:
         run: cargo build --release
 
 
+      - name: Clone example project
+        run: git clone https://github.com/JamesParrott/simple-python-project-for-PyCrucible/
+
       - name: Copy PyCrucible to project
         shell: bash
-        run: cp ./target/release/pycrucible my_cowsay
+        run: cp ./target/release/pycrucible simple-python-project-for-PyCrucible
 
       - name: Run PyCrucible
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./pycrucible -e . -o cowsay
 
 
       - name: Test cowsay
         continue-on-error: true
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay 
 
       # Workaround / hack ?
       - name: Copy main.py to payload
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
       - name: Test cowsay
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay
           
       

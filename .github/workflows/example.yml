@@ -3,7 +3,7 @@ name: Supported use. Build and run an example app with PyCrucible
 on:
   push:
     branches:
-      [CI_Cowsay_Example,]
+      [External_example_repo,]
   workflow_dispatch:
 
 
@@ -35,18 +35,21 @@ jobs:
       - name: Compile release build
         run: cargo build --release
 
+      - name: Clone example project
+        run: git clone https://github.com/JamesParrott/simple-python-project-for-PyCrucible/
+
       - name: Copy PyCrucible to project
         shell: bash
-        run: cp ./target/release/pycrucible.exe my_cowsay
+        run: cp ./target/release/pycrucible.exe simple-python-project-for-PyCrucible
 
       - name: Run PyCrucible
         shell: bash
-        working-directory: my_cowsay
-        run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/my_cowsay -o cowsay.exe
+        working-directory: simple-python-project-for-PyCrucible
+        run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/simple-python-project-for-PyCrucible -o cowsay.exe
 
       - name: Test cowsay.exe
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay.exe  
 
 
@@ -78,19 +81,22 @@ jobs:
         run: cargo build --release
 
 
+      - name: Clone example project
+        run: git clone https://github.com/JamesParrott/simple-python-project-for-PyCrucible/
+
       - name: Copy PyCrucible to project
         shell: bash
-        run: cp ./target/release/pycrucible my_cowsay
+        run: cp ./target/release/pycrucible simple-python-project-for-PyCrucible
 
       - name: Run PyCrucible
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./pycrucible -e . -o cowsay
 
 
       - name: Test cowsay
         shell: bash
-        working-directory: my_cowsay
+        working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay 
 
 
