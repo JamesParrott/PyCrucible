@@ -1,4 +1,4 @@
-name: Build and run an example app with PyCrucible
+name: Supported use. Build and run an example app with PyCrucible
 
 on:
   push:
@@ -42,7 +42,7 @@ jobs:
       - name: Run PyCrucible
         shell: bash
         working-directory: my_cowsay
-        run: ./pycrucible.exe -e . -o cowsay.exe
+        run: ./pycrucible.exe -e ${GITHUB_WORKSPACE}/my_cowsay -o cowsay.exe
 
       - name: Test cowsay.exe
         shell: bash

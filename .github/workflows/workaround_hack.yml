@@ -1,4 +1,4 @@
-name: Build and run an example app with PyCrucible
+name: Workaround/hack.  Build and run an example app with PyCrucible
 
 on:
   push:
