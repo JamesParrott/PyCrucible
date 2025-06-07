@@ -45,7 +45,6 @@ jobs:
         run: ./pycrucible.exe -e . -o cowsay.exe
 
       - name: Test cowsay.exe
-        continue-on-error: true
         shell: bash
         working-directory: my_cowsay
         run: ./cowsay.exe  
@@ -90,7 +89,6 @@ jobs:
 
 
       - name: Test cowsay
-        continue-on-error: true
         shell: bash
         working-directory: my_cowsay
         run: ./cowsay 
