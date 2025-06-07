@@ -21,8 +21,7 @@ jobs:
             },
           ]
         use_workaround_hack:
-          - yes
-          - no
+          [true, false]
           
     runs-on: ${{ matrix.config.runner }}
 
@@ -74,13 +73,13 @@ jobs:
 
       # Workaround / hack ?
       - name: Copy main.py to payload
-        if: matrix.config.use_workaround_hack == "yes"
+        if: matrix.config.use_workaround_hack
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: cp main.py payload
 
       - name: Rerun cowsay executable
-        if: matrix.config.use_workaround_hack == "yes"
+        if: matrix.config.use_workaround_hack
         shell: bash
         working-directory: simple-python-project-for-PyCrucible
         run: ./cowsay${{ matrix.config.bin_ext}} 
